@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>myhealth — Better Health, Better Life</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  --blue: #2196F3;
+  --green: #4CAF50;
+  --blue-dark: #1565C0;
+  --green-dark: #388E3C;
+  --blue-light: #E3F2FD;
+  --green-light: #E8F5E9;
+  --white: #FFFFFF;
+  --off-white: #F8FFFE;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-500: #9E9E9E;
+  --gray-700: #616161;
+  --gray-900: #212121;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-blue: 0 8px 24px rgba(33,150,243,0.2);
+  --shadow-green: 0 8px 24px rgba(76,175,80,0.2);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--white);
+  color: var(--gray-900);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+/* NAVBAR */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--gray-200);
+  transition: box-shadow 0.3s;
+  padding: 0.7rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+#navbar.scrolled { box-shadow: var(--shadow); }
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.nav-logo-text { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg,#2196F3,#4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; align-items: center; gap: 1.8rem; list-style: none; }
+.nav-links a { color: var(--gray-700); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
+.nav-links a:hover { color: var(--blue); }
+.nav-right { display: flex; gap: 0.8rem; align-items: center; }
+.btn-login { background: transparent; border: 2px solid var(--blue); color: var(--blue); padding: 0.5rem 1.3rem; border-radius: 50px; font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
+.btn-login:hover { background: var(--blue); color: white; }
+.btn-signup { background: linear-gradient(135deg, var(--blue), var(--green)); color: white; border: none; padding: 0.55rem 1.4rem; border-radius: 50px; font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; box-shadow: var(--shadow-blue); }
+.btn-signup:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(33,150,243,0.3); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: none; }
+.hamburger span { width: 24px; height: 2px; background: var(--gray-700); border-radius: 2px; transition: 0.3s; }
+
+/* MOBILE NAV */
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: white; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-size: 1.3rem; font-weight: 700; color: var(--gray-900); text-decoration: none; }
+.mobile-nav a:hover { color: var(--blue); }
+.mobile-close { position: absolute; top: 1.2rem; right: 1.5rem; font-size: 1.8rem; cursor: pointer; color: var(--gray-500); background: none; border: none; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(155deg, #F0F9FF 0%, #FFFFFF 40%, #F0FFF4 100%);
+  display: flex; align-items: center;
+  padding: 6rem 2rem 4rem;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(33,150,243,0.06) 0%, transparent 70%);
+  top: -200px; right: -200px;
+}
+.hero::after {
+  content: ''; position: absolute;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(76,175,80,0.06) 0%, transparent 70%);
+  bottom: -150px; left: -100px;
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--blue-light); color: var(--blue);
+  padding: 0.35rem 1rem; border-radius: 50px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(76,175,80,0.6)} 50%{box-shadow:0 0 0 6px rgba(76,175,80,0)} }
+.hero-title { font-family: 'Poppins', sans-serif; font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.2rem; }
+.hero-title span.blue { color: var(--blue); }
+.hero-title span.green { color: var(--green); }
+.hero-sub { font-size: 1.05rem; color: var(--gray-700); line-height: 1.75; margin-bottom: 2rem; max-width: 500px; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.btn-primary { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: white; border: none; padding: 0.9rem 2rem; border-radius: 50px; font-weight: 700; font-size: 0.95rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-blue); transition: all 0.25s; font-family: 'Nunito', sans-serif; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(33,150,243,0.35); }
+.btn-secondary { background: white; color: var(--green-dark); border: 2px solid var(--green); padding: 0.9rem 2rem; border-radius: 50px; font-weight: 700; font-size: 0.95rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.25s; font-family: 'Nunito', sans-serif; }
+.btn-secondary:hover { background: var(--green); color: white; }
+.hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+.hstat { text-align: left; }
+.hstat-num { font-family: 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--blue), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hstat-label { font-size: 0.78rem; color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Hero visual */
+.hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+.hero-logo-big {
+  width: 280px; height: 280px;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  border-radius: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Poppins', sans-serif; font-size: 3rem; font-weight: 800; color: white;
+  animation: float-logo 5s ease-in-out infinite;
+  filter: drop-shadow(0 20px 40px rgba(33,150,243,0.3));
+  flex-direction: column; gap: 0.3rem;
+}
+.hero-logo-big .logo-icon { font-size: 4rem; border-radius: 50%; background: white; color: var(--blue); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; }
+.hero-logo-big .logo-text { font-size: 1.8rem; letter-spacing: -0.02em; }
+@keyframes float-logo { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+.hero-pill {
+  position: absolute; background: white; border-radius: 16px; padding: 0.8rem 1.1rem;
+  box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.8rem; font-weight: 700; animation: float-card 4s ease-in-out infinite;
+}
+.hero-pill:nth-child(2) { top: 10%; right: -10px; animation-delay: -1s; }
+.hero-pill:nth-child(3) { bottom: 12%; left: -20px; animation-delay: -2.5s; }
+.hero-pill:nth-child(4) { top: 50%; right: -30px; animation-delay: -0.5s; }
+@keyframes float-card { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.pill-icon { font-size: 1.3rem; }
+.pill-val { color: var(--blue); }
+.pill-lbl { color: var(--gray-500); font-weight: 500; font-size: 0.7rem; }
+
+/* SECTION BASE */
+.section { padding: 5.5rem 2rem; }
+.section-alt { background: var(--gray-50); }
+.section-blue-tint { background: linear-gradient(135deg, #F0F9FF, #F0FFF4); }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-eyebrow { font-size: 0.75rem; font-weight: 800; color: var(--blue); letter-spacing: 0.12em; text-transform: uppercase; text-align: center; margin-bottom: 0.7rem; }
+.section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; text-align: center; line-height: 1.2; margin-bottom: 0.8rem; }
+.section-title .g { color: var(--green-dark); }
+.section-title .b { color: var(--blue); }
+.section-sub { text-align: center; color: var(--gray-700); font-size: 1rem; max-width: 600px; margin: 0 auto 3.5rem; line-height: 1.7; }
+
+/* REVEAL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* FEATURES */
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.feat-card {
+  background: white; border-radius: var(--radius); padding: 2rem;
+  border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm);
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--green)); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+.feat-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.feat-card:hover::before { transform: scaleX(1); }
+.feat-icon-wrap { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.2rem; }
+.feat-icon-wrap.blue { background: var(--blue-light); }
+.feat-icon-wrap.green { background: var(--green-light); }
+.feat-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; }
+.feat-desc { color: var(--gray-700); font-size: 0.875rem; line-height: 1.65; }
+
+/* HOW IT WORKS */
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.step-card { text-align: center; padding: 2rem 1.5rem; }
+.step-circle { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; font-size: 1.8rem; position: relative; }
+.step-circle.blue { background: var(--blue-light); }
+.step-circle.green { background: var(--green-light); }
+.step-num { position: absolute; top: -4px; right: -4px; width: 22px; height: 22px; background: var(--blue); color: white; border-radius: 50%; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+.step-desc { font-size: 0.825rem; color: var(--gray-700); line-height: 1.6; }
+
+/* MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.35); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: var(--radius-lg); width: 100%; max-width: 480px;
+  overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+  animation: slideUp 0.35s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+.modal-header {
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  padding: 2rem; text-align: center; color: white; position: relative;
+}
+.modal-logo { font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 800; color: white; margin-bottom: 0.8rem; }
+.modal-header h2 { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 700; }
+.modal-header p { font-size: 0.85rem; opacity: 0.85; margin-top: 0.3rem; }
+.modal-body { padding: 2rem; }
+.modal-tabs { display: flex; border-bottom: 2px solid var(--gray-200); margin-bottom: 1.8rem; }
+.modal-tab { flex: 1; padding: 0.8rem; text-align: center; font-weight: 700; font-size: 0.875rem; cursor: pointer; border: none; background: none; color: var(--gray-500); transition: all 0.2s; border-bottom: 2px solid transparent; margin-bottom: -2px; font-family: 'Nunito', sans-serif; }
+.modal-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.form-group { margin-bottom: 1.1rem; }
+.form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.4rem; letter-spacing: 0.03em; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 0.8rem 1rem; border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+  color: var(--gray-900); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--gray-50);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--blue); background: white;
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.1);
+}
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.form-submit { width: 100%; background: linear-gradient(135deg, var(--blue), var(--green)); color: white; border: none; padding: 0.95rem; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: var(--shadow-blue); transition: all 0.2s; margin-top: 0.5rem; }
+.form-submit:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(33,150,243,0.35); }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.3); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { background: rgba(255,255,255,0.5); }
+.switch-text { text-align: center; font-size: 0.85rem; color: var(--gray-500); margin-top: 1.2rem; }
+.switch-text a { color: var(--blue); font-weight: 700; cursor: pointer; text-decoration: none; }
+
+/* DASHBOARD */
+#dashboard { display: none; }
+.dash-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; padding-top: 70px; }
+.sidebar {
+  background: white; border-right: 1px solid var(--gray-200);
+  padding: 2rem 1rem; position: sticky; top: 70px; height: calc(100vh - 70px);
+  overflow-y: auto; display: flex; flex-direction: column;
+}
+.sidebar-user { text-align: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200); margin-bottom: 1.5rem; }
+.user-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--green)); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.8rem; font-size: 1.8rem; font-weight: 800; color: white; font-family: 'Poppins', sans-serif; }
+.user-name { font-weight: 800; font-size: 1rem; }
+.user-email { font-size: 0.78rem; color: var(--gray-500); margin-top: 0.2rem; }
+.health-score-mini { margin-top: 0.8rem; }
+.score-label-mini { font-size: 0.72rem; color: var(--gray-500); font-weight: 600; }
+.score-bar { height: 6px; background: var(--gray-200); border-radius: 3px; margin-top: 0.3rem; overflow: hidden; }
+.score-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 1s ease; }
+.sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+.sidebar-nav li a {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.75rem 1rem; border-radius: var(--radius-sm);
+  text-decoration: none; color: var(--gray-700); font-weight: 600; font-size: 0.875rem;
+  transition: all 0.2s;
+}
+.sidebar-nav li a:hover, .sidebar-nav li a.active { background: var(--blue-light); color: var(--blue); }
+.sidebar-nav li a .nav-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+.sidebar-logout { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--gray-200); }
+.sidebar-logout button { width: 100%; background: none; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 0.7rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; }
+.sidebar-logout button:hover { border-color: #EF5350; color: #EF5350; }
+
+/* Dash main */
+.dash-main { background: var(--gray-50); padding: 2.5rem; overflow-y: auto; }
+.dash-panel { display: none; }
+.dash-panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.dash-greeting { font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem; }
+.dash-date { color: var(--gray-500); font-size: 0.875rem; margin-bottom: 2rem; }
+
+/* Vitals grid */
+.vitals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.vital-card { background: white; border-radius: var(--radius); padding: 1.4rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm); transition: box-shadow 0.2s; }
+.vital-card:hover { box-shadow: var(--shadow); }
+.vital-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.vital-val { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--blue); }
+.vital-name { font-size: 0.75rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+.vital-status { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-top: 0.5rem; }
+.vs-ok { background: var(--green-light); color: var(--green-dark); }
+.vs-warn { background: #FFF8E1; color: #F57F17; }
+.vs-bad { background: #FFEBEE; color: #C62828; }
+
+/* Two-col layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.dash-card { background: white; border-radius: var(--radius); padding: 1.8rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm); }
+.dash-card-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+
+/* Daily tasks */
+.task-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.task-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; border-radius: var(--radius-sm); background: var(--gray-50); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid var(--gray-200); }
+.task-item.done { background: var(--green-light); border-color: #A5D6A7; color: var(--green-dark); text-decoration: line-through; }
+.task-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
+.task-item.done .task-check { background: var(--green); border-color: var(--green); color: white; }
+
+/* Medicine list */
+.med-schedule { display: flex; flex-direction: column; gap: 0.7rem; }
+.med-item { display: flex; align-items: center; gap: 0.9rem; padding: 0.9rem 1rem; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); background: white; }
+.med-time-badge { background: var(--blue-light); color: var(--blue); font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px; white-space: nowrap; }
+.med-name { font-weight: 700; font-size: 0.875rem; }
+.med-dose-info { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.1rem; }
+.med-icon { font-size: 1.3rem; }
+
+/* AI suggestion box */
+.ai-suggestion { background: linear-gradient(135deg, var(--blue-light), var(--green-light)); border: 1.5px solid #B3E5FC; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+.ai-badge { font-size: 0.7rem; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+.ai-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse-dot 2s infinite; }
+.ai-text { font-size: 0.9rem; line-height: 1.7; color: var(--gray-900); }
+
+/* Log vitals form */
+.log-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.log-input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.35rem; }
+.log-input-group input { width: 100%; padding: 0.7rem 0.9rem; border: 1.5px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif; font-size: 0.9rem; outline: none; transition: 0.2s; background: var(--gray-50); }
+.log-input-group input:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(33,150,243,0.1); }
+.log-input-group select { width: 100%; padding: 0.7rem 0.9rem; border: 1.5px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif; font-size: 0.9rem; outline: none; transition: 0.2s; background: var(--gray-50); }
+.log-btn { background: linear-gradient(135deg, var(--blue), var(--green)); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-blue); transition: 0.2s; }
+.log-btn:hover { transform: translateY(-1px); }
+
+/* Profile form */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.profile-avatar-big { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--green)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2.5rem; font-weight: 800; color: white; font-family: 'Poppins', sans-serif; }
+
+/* Chart bars */
+.mini-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin-top: 0.8rem; }
+.mini-bar { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--blue), rgba(33,150,243,0.3)); transition: height 1s ease; }
+.chart-days { display: flex; gap: 4px; margin-top: 4px; }
+.chart-day { flex: 1; text-align: center; font-size: 0.6rem; color: var(--gray-500); font-weight: 600; }
+
+/* AI Diagnosis in dash */
+.symptom-tags-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.stag { background: var(--gray-100); border: 1.5px solid var(--gray-300); color: var(--gray-700); padding: 0.35rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.2s; user-select: none; }
+.stag.active { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+
+/* Diagnosis result */
+.diag-result { background: var(--gray-50); border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem; animation: fadeIn 0.4s ease; }
+.sev-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.28rem 0.8rem; border-radius: 50px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.8rem; }
+.sev-low { background: var(--green-light); color: var(--green-dark); }
+.sev-mid { background: #FFF8E1; color: #E65100; }
+.sev-high { background: #FFEBEE; color: #B71C1C; }
+.diag-disease { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+.diag-desc { font-size: 0.875rem; color: var(--gray-700); line-height: 1.7; margin-bottom: 1.2rem; }
+.med-result-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.med-result-item { background: white; border: 1.5px solid var(--gray-200); border-radius: 12px; padding: 0.9rem 1.1rem; display: grid; grid-template-columns: auto 1fr auto; gap: 0.8rem; align-items: center; }
+.med-r-name { font-weight: 700; font-size: 0.875rem; }
+.med-r-info { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.15rem; }
+.med-r-time { background: var(--blue-light); color: var(--blue); font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px; white-space: nowrap; }
+.diag-disclaimer { background: #FFF8E1; border: 1px solid #FFE082; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.78rem; color: #E65100; margin-top: 1rem; }
+.diag-warn { background: #FFEBEE; border: 1px solid #FFCDD2; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.78rem; color: #B71C1C; margin-top: 0.6rem; display: flex; gap: 0.5rem; }
+.recov-info { background: var(--green-light); border: 1px solid #A5D6A7; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.78rem; color: var(--green-dark); margin-top: 0.6rem; }
+.lifestyle-list { list-style: none; margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.lifestyle-list li { font-size: 0.825rem; color: var(--gray-700); display: flex; gap: 0.5rem; }
+.lifestyle-list li::before { content: "✓"; color: var(--green); font-weight: 800; flex-shrink: 0; }
+.loading-box { text-align: center; padding: 2rem; color: var(--gray-500); }
+.loading-dots { display: flex; gap: 6px; justify-content: center; margin: 0.8rem auto; }
+.loading-dots span { width: 8px; height: 8px; background: var(--blue); border-radius: 50%; animation: bounce-dot 1.2s infinite; }
+.loading-dots span:nth-child(2){animation-delay:0.2s} .loading-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce-dot { 0%,80%,100%{transform:scale(0.8);opacity:0.5} 40%{transform:scale(1.2);opacity:1} }
+
+/* CONTACT SECTION */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; }
+.contact-info h3 { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+.contact-info p { color: var(--gray-700); font-size: 0.95rem; line-height: 1.75; margin-bottom: 1.5rem; }
+.contact-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; background: white; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); margin-bottom: 0.8rem; text-decoration: none; color: var(--gray-900); transition: all 0.2s; box-shadow: var(--shadow-sm); }
+.contact-item:hover { border-color: var(--blue); box-shadow: var(--shadow-blue); transform: translateX(4px); }
+.contact-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.ci-wa { background: #E8F5E9; }
+.ci-em { background: var(--blue-light); }
+.ci-ig { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+.contact-label { font-size: 0.72rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+.contact-val { font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+.contact-form-card { background: white; border-radius: var(--radius-lg); padding: 2.5rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow); }
+.contact-form-card h3 { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+/* TESTIMONIALS */
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.testi-card { background: white; border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm); position: relative; }
+.testi-card::before { content: '"'; position: absolute; top: 0.5rem; right: 1.5rem; font-size: 5rem; color: var(--blue-light); font-family: serif; line-height: 1; }
+.stars { color: #FFC107; margin-bottom: 0.8rem; font-size: 0.9rem; }
+.testi-text { font-size: 0.875rem; color: var(--gray-700); line-height: 1.7; margin-bottom: 1.2rem; }
+.testi-author { display: flex; align-items: center; gap: 0.8rem; }
+.tav { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--green)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: white; flex-shrink: 0; }
+.tname { font-weight: 700; font-size: 0.875rem; }
+.trole { font-size: 0.72rem; color: var(--gray-500); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: white; border: 1px solid var(--gray-200); border-radius: 50px; padding: 0.8rem 1.8rem; box-shadow: var(--shadow-lg); font-weight: 700; font-size: 0.875rem; z-index: 3000; transition: transform 0.4s ease, opacity 0.4s; opacity: 0; display: flex; align-items: center; gap: 0.5rem; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.green { border-left: 4px solid var(--green); }
+.toast.blue { border-left: 4px solid var(--blue); }
+
+/* FOOTER */
+footer { background: var(--gray-900); color: white; padding: 4rem 2rem 2rem; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.footer-brand-name { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 1rem; display: block; }
+.footer-brand p { font-size: 0.875rem; color: #9E9E9E; line-height: 1.7; margin-bottom: 1rem; }
+.footer-social { display: flex; gap: 0.7rem; }
+.social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer; transition: 0.2s; text-decoration: none; }
+.social-btn:hover { background: var(--blue); }
+.footer-col h4 { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #9E9E9E; margin-bottom: 1rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-col a { color: #BDBDBD; text-decoration: none; font-size: 0.875rem; transition: 0.2s; }
+.footer-col a:hover { color: white; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: #757575; }
+
+/* PROGRESS BAR */
+#scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--green)); z-index: 2000; width: 0; transition: width 0.1s; }
+
+/* BACK TO TOP */
+#back-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 500; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--green)); color: white; border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-blue); opacity: 0; transform: scale(0.8); transition: 0.3s; }
+#back-top.show { opacity: 1; transform: scale(1); }
+
+/* MOBILE */
+@media(max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-right { display: none; }
+  .hamburger { display: flex; }
+  .hero-inner { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+  .hero-visual { order: -1; }
+  .hero-logo-big { width: 200px; height: 200px; }
+  .hero-pill:nth-child(2) { top: 5%; right: 5px; }
+  .hero-pill:nth-child(3) { bottom: 5%; left: 5px; }
+  .hero-pill:nth-child(4) { display: none; }
+  .hero-stats { justify-content: center; }
+  .hero-btns { justify-content: center; }
+  .two-col { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .dash-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; position: fixed; left: 0; top: 70px; width: 280px; height: calc(100vh - 70px); z-index: 900; transform: translateX(-100%); transition: transform 0.3s; }
+  .sidebar.open { display: flex; transform: translateX(0); }
+  .dash-main { padding: 1.5rem; }
+  .mobile-dash-nav { display: flex; gap: 0.5rem; overflow-x: auto; padding: 1rem 0; margin-bottom: 1.5rem; scrollbar-width: none; }
+  .mobile-dash-nav::-webkit-scrollbar { display: none; }
+  .mobile-dash-btn { background: white; border: 1.5px solid var(--gray-200); border-radius: 50px; padding: 0.5rem 1rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: 'Nunito', sans-serif; transition: 0.2s; flex-shrink: 0; }
+  .mobile-dash-btn.active { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+}
+@media(min-width:901px) { .mobile-dash-nav { display: none !important; } }
+@media(max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .vitals-grid { grid-template-columns: repeat(2, 1fr); }
+  .log-form { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+
+<!-- NAVBAR -->
+<nav id="navbar">
+      
+  <a href="#" class="nav-logo" onclick="showLanding(); return false;">
+    <img src="myhealth.png" alt="MyHealth Logo" width="60">
+    <span class="nav-logo-text">myhealth</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-login" onclick="openModal('login')">Login</button>
+    <button class="btn-signup" onclick="openModal('signup')">Get Started Free</button>
+  </div>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
+  <a href="#features" onclick="toggleMobileNav()">Features</a>
+  <a href="#how-it-works" onclick="toggleMobileNav()">How It Works</a>
+  <a href="#testimonials" onclick="toggleMobileNav()">Reviews</a>
+  <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+  <button class="btn-login" onclick="toggleMobileNav();openModal('login')">Login</button>
+  <button class="btn-signup" onclick="toggleMobileNav();openModal('signup')">Get Started Free</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">🤖 AI-Powered Health Assistant</div>
+      <h1 class="hero-title">
+        <span class="blue">my</span><span class="green">health</span><br>
+        Better Health,<br>Better Life
+      </h1>
+      <p class="hero-sub">Track your daily health, get AI-powered diagnoses, receive personalised medicine schedules, and live better — all in one beautiful platform.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openModal('signup')">🚀 Start for Free</button>
+        <a href="#how-it-works" class="btn-secondary">Learn How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">98.2%</div><div class="hstat-label">AI Accuracy</div></div>
+        <div class="hstat"><div class="hstat-num">500+</div><div class="hstat-label">Conditions</div></div>
+        <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-label">Available</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-logo-big">
+        <img src="myhealth.png" alt="MyHealth Logo" width="60" class="logo-icon">
+        <span class="logo-text">myhealth</span>
+      </div>
+      <div class="hero-pill">
+        <span class="pill-icon">❤️</span>
+        <div><div class="pill-val">72 bpm</div><div class="pill-lbl">Heart Rate</div></div>
+      </div>
+      <div class="hero-pill">
+        <span class="pill-icon">🩺</span>
+        <div><div class="pill-val">All Good</div><div class="pill-lbl">Today's Check</div></div>
+      </div>
+      <div class="hero-pill">
+        <span class="pill-icon">💊</span>
+        <div><div class="pill-val">3 Doses</div><div class="pill-lbl">Medicine Today</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-eyebrow">What myhealth offers</div>
+    <h2 class="section-title">Everything for <span class="b">Better Health</span></h2>
+    <p class="section-sub">A complete health companion — from symptom checking to daily tracking, medicine reminders, and personalised AI advice.</p>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap blue">🧠</div>
+        <h3 class="feat-title">AI Symptom Diagnosis</h3>
+        <p class="feat-desc">Describe your symptoms and get an instant AI-powered diagnosis with confidence score, medicine recommendations, and dosage schedule.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap green">📅</div>
+        <h3 class="feat-title">Daily Health Tracker</h3>
+        <p class="feat-desc">Log vitals every day — heart rate, blood pressure, blood sugar, temperature — and see your health trend with visual charts.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap blue">💊</div>
+        <h3 class="feat-title">Medicine Schedule</h3>
+        <p class="feat-desc">AI generates your precise medicine plan with morning, afternoon, and night timing, food instructions, and duration.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap green">✅</div>
+        <h3 class="feat-title">Daily Task Suggestions</h3>
+        <p class="feat-desc">Get personalised daily health tasks based on your profile — exercise, hydration, sleep, diet — and tick them off as you go.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap blue">🔒</div>
+        <h3 class="feat-title">Stay Logged In Always</h3>
+        <p class="feat-desc">Your account stays active. No repeated logins — just open and see your health dashboard instantly, every time.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon-wrap green">📊</div>
+        <h3 class="feat-title">Health Score & Reports</h3>
+        <p class="feat-desc">Your personalised health score updates daily based on your vitals, tasks completed, and medicine adherence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-blue-tint" id="how-it-works">
+  <div class="container">
+    <div class="section-eyebrow">Simple Process</div>
+    <h2 class="section-title">Get started in <span class="g">4 easy steps</span></h2>
+    <p class="section-sub">From sign-up to your first AI health report — it takes less than 2 minutes.</p>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-circle blue">👤<div class="step-num">1</div></div>
+        <h3 class="step-title">Create Your Profile</h3>
+        <p class="step-desc">Enter your name, age, weight, height, and existing health conditions for personalised recommendations.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-circle green">📋<div class="step-num">2</div></div>
+        <h3 class="step-title">Log Your Vitals Daily</h3>
+        <p class="step-desc">Enter heart rate, BP, blood sugar, and temperature. Takes 30 seconds and builds your health history.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-circle blue">🤖<div class="step-num">3</div></div>
+        <h3 class="step-title">AI Checks Your Symptoms</h3>
+        <p class="step-desc">Tell our AI how you feel. Get instant diagnosis, medicine recommendations with dosage and timing.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-circle green">🌟<div class="step-num">4</div></div>
+        <h3 class="step-title">Follow Your Daily Plan</h3>
+        <p class="step-desc">Complete your personalised daily health tasks, take medicines on time, and improve your health score.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="section-eyebrow">Patient Reviews</div>
+    <h2 class="section-title">Loved by <span class="b">thousands</span> across India</h2>
+    <p class="section-sub">Real people, real results. See how myhealth has transformed daily health management.</p>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">The AI diagnosed my viral fever and gave a perfect 5-day medicine plan with exact timings. Stayed logged in perfectly — I open the app and my dashboard is right there.</p>
+        <div class="testi-author"><div class="tav">PR</div><div><div class="tname">Priya Rao</div><div class="trole">Software Engineer, Bengaluru</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Daily health tasks and medicine reminders have completely changed my routine. Blood sugar is now under control for the first time in years. This is genuinely life-changing.</p>
+        <div class="testi-author"><div class="tav">AS</div><div><div class="tname">Amit Sharma</div><div class="trole">Retired Teacher, Delhi</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">I filled my complete health profile and the AI gave suggestions specific to my diabetes and thyroid. The daily tasks feel like I have a personal health coach.</p>
+        <div class="testi-author"><div class="tav">NK</div><div><div class="tname">Nadia Khan</div><div class="trole">Teacher, Hyderabad</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section-alt" id="contact">
+  <div class="container">
+    <div class="section-eyebrow">Get in Touch</div>
+    <h2 class="section-title">Contact <span class="g">myhealth</span></h2>
+    <p class="section-sub">Have questions or need support? We're always here to help. Reach us through WhatsApp, email, or Instagram.</p>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Let's Connect</h3>
+        <p>Whether you need help with the app, have a health question, or want to give feedback — our team responds fast. We're especially quick on WhatsApp.</p>
+        <a href="https://wa.me/917505640600" target="_blank" class="contact-item">
+          <div class="contact-icon ci-wa">💬</div>
+          <div><div class="contact-label">WhatsApp</div><div class="contact-val">+91 7505640600</div></div>
+        </a>
+        <a href="mailto:ng318833@gmail.com" class="contact-item">
+          <div class="contact-icon ci-em">✉️</div>
+          <div><div class="contact-label">Email</div><div class="contact-val">ng318833@gmail.com</div></div>
+        </a>
+        <a href="https://instagram.com/nikhil.gupta.in" target="_blank" class="contact-item">
+          <div class="contact-icon ci-ig">📸</div>
+          <div><div class="contact-label">Instagram</div><div class="contact-val">@nikhil.gupta.in</div></div>
+        </a>
+      </div>
+      <div class="contact-form-card reveal">
+        <h3>Send a Message</h3>
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="e.g. Rahul Sharma"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Message</label><textarea rows="4" placeholder="How can we help you?"></textarea></div>
+        <button class="form-submit" onclick="showToast('✅ Message sent! We will reply within 24 hours.','green')">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-brand-name">⚕️ myhealth</span>
+        <p>Better Health, Better Life — India's most trusted AI health companion. Available 24/7 to guide you on your wellness journey.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/917505640600" target="_blank" class="social-btn">💬</a>
+          <a href="mailto:ng318833@gmail.com" class="social-btn">✉️</a>
+          <a href="https://instagram.com/nikhil.gupta.in" target="_blank" class="social-btn">📸</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">AI Diagnosis</a></li>
+          <li><a href="#features">Health Tracker</a></li>
+          <li><a href="#features">Medicine Guide</a></li>
+          <li><a href="#features">Daily Tasks</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#contact">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Support</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Medical Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 myhealth by Nikhil Gupta. All rights reserved.</span>
+      <span>⚕️ Always consult a qualified doctor for serious conditions.</span>
+    </div>
+  </div>
+</footer>
+</div><!-- end #landing -->
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-logo">⚕️ myhealth</div>
+      <h2 id="modalTitle">Welcome to myhealth</h2>
+      <p id="modalSub">Better Health, Better Life</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+        <button class="modal-tab" id="signupTab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="Your password"></div>
+        <button class="form-submit" onclick="doLogin()">Login to myhealth →</button>
+        <p class="switch-text">Don't have an account? <a onclick="switchTab('signup')">Sign Up Free</a></p>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="signupForm" style="display:none">
+        <div class="form-grid-2">
+          <div class="form-group"><label>First Name</label><input type="text" id="signupFirstName" placeholder="Rahul"></div>
+          <div class="form-group"><label>Last Name</label><input type="text" id="signupLastName" placeholder="Sharma"></div>
+        </div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="signupEmail" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="signupPass" placeholder="Create a strong password"></div>
+        <div class="form-grid-2">
+          <div class="form-group"><label>Age</label><input type="number" id="signupAge" placeholder="28" min="1" max="120"></div>
+          <div class="form-group"><label>Gender</label><select id="signupGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="signupWeight" placeholder="70"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="signupHeight" placeholder="170"></div>
+        </div>
+        <div class="form-group"><label>Blood Group</label><select id="signupBlood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+        <div class="form-group"><label>Existing Health Conditions (optional)</label><input type="text" id="signupConditions" placeholder="e.g. diabetes, hypertension, asthma..."></div>
+        <div class="form-group"><label>Allergies (optional)</label><input type="text" id="signupAllergies" placeholder="e.g. penicillin, dust, pollen..."></div>
+        <button class="form-submit" onclick="doSignup()">Create My Health Profile →</button>
+        <p class="switch-text">Already have an account? <a onclick="switchTab('login')">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dash-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-user">
+        <div class="user-avatar" id="sidebarAvatar">N</div>
+        <div class="user-name" id="sidebarName">Loading...</div>
+        <div class="user-email" id="sidebarEmail">...</div>
+        <div class="health-score-mini">
+          <div class="score-label-mini">Health Score: <span id="healthScoreVal">--</span>/100</div>
+          <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#" class="active" onclick="showPanel('overview',this); return false;"><span class="nav-icon">🏠</span> Overview</a></li>
+        <li><a href="#" onclick="showPanel('diagnose',this); return false;"><span class="nav-icon">🔬</span> AI Diagnosis</a></li>
+        <li><a href="#" onclick="showPanel('tracker',this); return false;"><span class="nav-icon">📊</span> Daily Tracker</a></li>
+        <li><a href="#" onclick="showPanel('medicine',this); return false;"><span class="nav-icon">💊</span> Medicine Plan</a></li>
+        <li><a href="#" onclick="showPanel('tasks',this); return false;"><span class="nav-icon">✅</span> Daily Tasks</a></li>
+        <li><a href="#" onclick="showPanel('profile',this); return false;"><span class="nav-icon">👤</span> My Profile</a></li>
+      </ul>
+      <div class="sidebar-logout">
+        <button onclick="doLogout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="dash-main" id="dashMain">
+      <!-- Mobile nav pills -->
+      <div class="mobile-dash-nav">
+        <button class="mobile-dash-btn active" onclick="showPanel('overview',this)">🏠 Overview</button>
+        <button class="mobile-dash-btn" onclick="showPanel('diagnose',this)">🔬 AI Diagnosis</button>
+        <button class="mobile-dash-btn" onclick="showPanel('tracker',this)">📊 Tracker</button>
+        <button class="mobile-dash-btn" onclick="showPanel('medicine',this)">💊 Medicine</button>
+        <button class="mobile-dash-btn" onclick="showPanel('tasks',this)">✅ Tasks</button>
+        <button class="mobile-dash-btn" onclick="showPanel('profile',this)">👤 Profile</button>
+      </div>
+
+      <!-- OVERVIEW -->
+      <div class="dash-panel active" id="panel-overview">
+        <div class="dash-greeting" id="dashGreeting">Good Morning! 👋</div>
+        <div class="dash-date" id="dashDate"></div>
+
+        <div class="ai-suggestion" id="aiSuggestion">
+          <div class="ai-badge">🤖 AI Daily Suggestion</div>
+          <div class="ai-text" id="aiSuggestionText">Loading your personalised advice...</div>
+        </div>
+
+        <div class="vitals-grid" id="vitalsGrid">
+          <div class="vital-card"><div class="vital-icon">❤️</div><div class="vital-val" id="v-hr">--</div><div class="vital-name">Heart Rate</div><span class="vital-status vs-ok" id="v-hr-s">Normal</span></div>
+          <div class="vital-card"><div class="vital-icon">🩸</div><div class="vital-val" id="v-bp">--</div><div class="vital-name">Blood Pressure</div><span class="vital-status vs-ok" id="v-bp-s">Normal</span></div>
+          <div class="vital-card"><div class="vital-icon">🌡️</div><div class="vital-val" id="v-temp">--</div><div class="vital-name">Temperature</div><span class="vital-status vs-ok" id="v-temp-s">Normal</span></div>
+          <div class="vital-card"><div class="vital-icon">🩺</div><div class="vital-val" id="v-sugar">--</div><div class="vital-name">Blood Sugar</div><span class="vital-status vs-ok" id="v-sugar-s">Normal</span></div>
+          <div class="vital-card"><div class="vital-icon">🫁</div><div class="vital-val" id="v-o2">--</div><div class="vital-name">O₂ Saturation</div><span class="vital-status vs-ok" id="v-o2-s">Normal</span></div>
+          <div class="vital-card"><div class="vital-icon">⚖️</div><div class="vital-val" id="v-bmi">--</div><div class="vital-name">BMI</div><span class="vital-status vs-ok" id="v-bmi-s">Healthy</span></div>
+        </div>
+
+        <div class="two-col">
+          <div class="dash-card">
+            <div class="dash-card-title">📈 Heart Rate — This Week</div>
+            <div class="mini-chart" id="hrChart"></div>
+            <div class="chart-days" id="hrDays"></div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-title">✅ Today's Tasks</div>
+            <ul class="task-list" id="overviewTaskList"></ul>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="dash-card">
+            <div class="dash-card-title">💊 Today's Medicine</div>
+            <div class="med-schedule" id="overviewMedList"><p style="color:var(--gray-500);font-size:0.875rem">Run an AI diagnosis to get your medicine plan.</p></div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-title">📋 Health Summary</div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;" id="healthSummary"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI DIAGNOSIS -->
+      <div class="dash-panel" id="panel-diagnose">
+        <h2 style="font-family:Poppins,sans-serif;font-weight:700;margin-bottom:0.3rem;">🔬 AI Symptom Diagnosis</h2>
+        <p style="color:var(--gray-500);font-size:0.875rem;margin-bottom:1.5rem;">Tell the AI how you feel and get an instant diagnosis with medicine recommendations.</p>
+        <div class="dash-card" style="margin-bottom:1.5rem;">
+          <div class="dash-card-title">Select your symptoms</div>
+          <div class="symptom-tags-wrap" id="dashSymTags">
+            <span class="stag" onclick="this.classList.toggle('active')">Headache</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Fever</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Cough</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Sore Throat</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Fatigue</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Body Aches</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Runny Nose</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Nausea</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Vomiting</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Diarrhea</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Chest Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Shortness of Breath</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Dizziness</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Abdominal Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Back Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Joint Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Rash</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Chills</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Loss of Appetite</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Eye Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Ear Pain</span>
+            <span class="stag" onclick="this.classList.toggle('active')">Swelling</span>
+          </div>
+          <div class="form-group" style="margin-top:1rem"><label>Describe your symptoms in your own words</label><textarea id="diagDesc" rows="3" placeholder="e.g. I have had a high fever since yesterday with severe body aches and a dry cough..."></textarea></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-top:0.8rem">
+            <div class="form-group"><label>Duration</label><select id="diagDuration"><option value="">Select</option><option>Less than 1 day</option><option>1–2 days</option><option>3–5 days</option><option>1–2 weeks</option><option>More than 2 weeks</option></select></div>
+            <div class="form-group"><label>Pain Level (1–10)</label><input type="number" id="diagPain" min="1" max="10" placeholder="e.g. 6"></div>
+            <div class="form-group"><label>Fever Temp (°F)</label><input type="number" id="diagFever" placeholder="e.g. 102"></div>
+          </div>
+          <button class="log-btn" onclick="runDashDiagnosis()" id="dashDiagBtn">🤖 Diagnose Now</button>
+        </div>
+        <div id="dashDiagResult"></div>
+      </div>
+
+      <!-- TRACKER -->
+      <div class="dash-panel" id="panel-tracker">
+        <h2 style="font-family:Poppins,sans-serif;font-weight:700;margin-bottom:0.3rem;">📊 Daily Health Tracker</h2>
+        <p style="color:var(--gray-500);font-size:0.875rem;margin-bottom:1.5rem;">Log your vitals every day to track your health over time.</p>
+        <div class="dash-card" style="margin-bottom:1.5rem;">
+          <div class="dash-card-title">Log Today's Vitals</div>
+          <div class="log-form">
+            <div class="log-input-group"><label>Heart Rate (bpm)</label><input type="number" id="log-hr" placeholder="72"></div>
+            <div class="log-input-group"><label>Systolic BP (mmHg)</label><input type="number" id="log-sys" placeholder="120"></div>
+            <div class="log-input-group"><label>Diastolic BP (mmHg)</label><input type="number" id="log-dia" placeholder="80"></div>
+            <div class="log-input-group"><label>Temperature (°F)</label><input type="number" id="log-temp" placeholder="98.6" step="0.1"></div>
+            <div class="log-input-group"><label>Blood Sugar (mg/dL)</label><input type="number" id="log-sugar" placeholder="100"></div>
+            <div class="log-input-group"><label>O₂ Saturation (%)</label><input type="number" id="log-o2" placeholder="98"></div>
+          </div>
+          <div style="margin-top:0.8rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+            <div class="log-input-group" style="margin:0;flex:1;min-width:180px"><label>How do you feel today?</label><select id="log-mood"><option value="">Select mood</option><option>😊 Great</option><option>🙂 Good</option><option>😐 Okay</option><option>😔 Not well</option><option>😰 Very unwell</option></select></div>
+            <div class="log-input-group" style="margin:0;flex:1;min-width:180px"><label>Hours of Sleep</label><input type="number" id="log-sleep" placeholder="7" min="0" max="24" step="0.5"></div>
+            <div class="log-input-group" style="margin:0;flex:1;min-width:180px"><label>Water intake (glasses)</label><input type="number" id="log-water" placeholder="8" min="0" max="20"></div>
+          </div>
+          <button class="log-btn" style="margin-top:1rem" onclick="logVitals()">Save Today's Entry ✓</button>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title">📈 Weekly Trend</div>
+          <div style="display:flex;gap:2rem;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:0.78rem;font-weight:700;color:var(--gray-500);margin-bottom:0.5rem">HEART RATE</div>
+              <div class="mini-chart" id="trackerHrChart" style="height:80px"></div>
+              <div class="chart-days" id="trackerHrDays"></div>
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:0.78rem;font-weight:700;color:var(--gray-500);margin-bottom:0.5rem">BLOOD SUGAR</div>
+              <div class="mini-chart" id="trackerSugarChart" style="height:80px"></div>
+              <div class="chart-days" id="trackerSugarDays"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDICINE -->
+      <div class="dash-panel" id="panel-medicine">
+        <h2 style="font-family:Poppins,sans-serif;font-weight:700;margin-bottom:0.3rem;">💊 Medicine Plan</h2>
+        <p style="color:var(--gray-500);font-size:0.875rem;margin-bottom:1.5rem;">Your AI-generated medicine schedule. Run a diagnosis to get your plan.</p>
+        <div class="dash-card">
+          <div class="dash-card-title">Today's Medicine Schedule</div>
+          <div id="fullMedSchedule"><p style="color:var(--gray-500);font-size:0.875rem;padding:1rem 0">No medicine plan yet. Go to <strong>AI Diagnosis</strong> to get your personalised medicine recommendations.</p></div>
+        </div>
+        <div class="dash-card" style="margin-top:1.5rem">
+          <div class="dash-card-title">ℹ️ Medicine Timing Guide</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:0.5rem">
+            <div style="background:var(--blue-light);border-radius:12px;padding:1rem;text-align:center"><div style="font-size:1.5rem">🌅</div><div style="font-weight:700;font-size:0.875rem;margin-top:0.4rem">Morning</div><div style="font-size:0.78rem;color:var(--gray-700);margin-top:0.3rem">6–9 AM • Empty or with breakfast</div></div>
+            <div style="background:var(--green-light);border-radius:12px;padding:1rem;text-align:center"><div style="font-size:1.5rem">☀️</div><div style="font-weight:700;font-size:0.875rem;margin-top:0.4rem">Afternoon</div><div style="font-size:0.78rem;color:var(--gray-700);margin-top:0.3rem">1–2 PM • With or after lunch</div></div>
+            <div style="background:#E8EAF6;border-radius:12px;padding:1rem;text-align:center"><div style="font-size:1.5rem">🌙</div><div style="font-weight:700;font-size:0.875rem;margin-top:0.4rem">Night</div><div style="font-size:0.78rem;color:var(--gray-700);margin-top:0.3rem">9–10 PM • After dinner or at bedtime</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TASKS -->
+      <div class="dash-panel" id="panel-tasks">
+        <h2 style="font-family:Poppins,sans-serif;font-weight:700;margin-bottom:0.3rem;">✅ Daily Health Tasks</h2>
+        <p style="color:var(--gray-500);font-size:0.875rem;margin-bottom:1.5rem;">Complete your personalised daily tasks to improve your health score.</p>
+        <div class="two-col">
+          <div class="dash-card">
+            <div class="dash-card-title">🌅 Morning Routine</div>
+            <ul class="task-list" id="morningTasks"></ul>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-title">☀️ Daytime Habits</div>
+            <ul class="task-list" id="dayTasks"></ul>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="dash-card">
+            <div class="dash-card-title">🌙 Evening Routine</div>
+            <ul class="task-list" id="eveningTasks"></ul>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-title">📊 Task Completion</div>
+            <div id="taskProgress" style="text-align:center;padding:1rem">
+              <div style="font-family:Poppins,sans-serif;font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="taskPct">0%</div>
+              <div style="color:var(--gray-500);font-size:0.875rem;margin-top:0.3rem">tasks completed today</div>
+              <div class="score-bar" style="margin-top:1rem"><div class="score-fill" id="taskFill" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="dash-panel" id="panel-profile">
+        <h2 style="font-family:Poppins,sans-serif;font-weight:700;margin-bottom:0.3rem;">👤 My Health Profile</h2>
+        <p style="color:var(--gray-500);font-size:0.875rem;margin-bottom:1.5rem;">Keep your profile updated for the most accurate AI recommendations.</p>
+        <div class="dash-card">
+          <div class="profile-avatar-big" id="profileAvatar">N</div>
+          <div style="text-align:center;margin-bottom:1.5rem">
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:1.2rem" id="profileName">--</div>
+            <div style="color:var(--gray-500);font-size:0.875rem" id="profileEmail">--</div>
+          </div>
+          <div class="profile-grid">
+            <div class="form-group"><label>First Name</label><input type="text" id="p-fname" placeholder="Rahul"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="p-lname" placeholder="Sharma"></div>
+            <div class="form-group"><label>Age</label><input type="number" id="p-age" placeholder="28"></div>
+            <div class="form-group"><label>Gender</label><select id="p-gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+            <div class="form-group"><label>Weight (kg)</label><input type="number" id="p-weight" placeholder="70"></div>
+            <div class="form-group"><label>Height (cm)</label><input type="number" id="p-height" placeholder="170"></div>
+            <div class="form-group"><label>Blood Group</label><select id="p-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="p-phone" placeholder="+91 9876543210"></div>
+          </div>
+          <div class="form-group"><label>Existing Health Conditions</label><input type="text" id="p-conditions" placeholder="e.g. diabetes, hypertension, thyroid..."></div>
+          <div class="form-group"><label>Known Allergies</label><input type="text" id="p-allergies" placeholder="e.g. penicillin, sulfa drugs, dust..."></div>
+          <div class="form-group"><label>Current Medications (if any)</label><textarea id="p-meds" rows="2" placeholder="e.g. Metformin 500mg twice daily..."></textarea></div>
+          <div class="form-group"><label>Lifestyle</label><select id="p-lifestyle"><option>Sedentary (mostly sitting)</option><option>Lightly active</option><option>Moderately active</option><option>Very active</option><option>Athlete</option></select></div>
+          <div class="form-group"><label>Diet Preference</label><select id="p-diet"><option>Vegetarian</option><option>Non-Vegetarian</option><option>Vegan</option><option>Jain</option></select></div>
+          <button class="log-btn" onclick="saveProfile()">Save Profile ✓</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── STATE ───
+let currentUser = null;
+const TASKS = {
+  morning: ['💧 Drink 2 glasses of water on waking','🧘 10 min morning stretching or yoga','🥗 Eat a healthy breakfast','💊 Take morning medicines (if prescribed)','🚶 15 min morning walk'],
+  day:     ['💧 Drink 8 glasses of water today','🍎 Eat fruits or a healthy snack','💊 Take afternoon medicines (if prescribed)','🚶 30 min walk or exercise','😌 Take a 10 min break from screens'],
+  evening: ['🥗 Eat a light, healthy dinner','💊 Take evening/night medicines (if prescribed)','📖 Read for 20 min before bed','🛌 Sleep 7–8 hours tonight','🙏 Reflect on 3 good things from today']
+};
+
+// ─── SCROLL ───
+window.addEventListener('scroll', () => {
+  const s = document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-progress').style.width = (s / h * 100) + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', s > 30);
+  document.getElementById('back-top').classList.toggle('show', s > 300);
+});
+
+// ─── REVEAL ───
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100);
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+// ─── NAV ───
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ─── MODAL ───
+function openModal(tab) {
+  document.getElementById('authModal').classList.add('open');
+  switchTab(tab);
+}
+function closeModal() {
+  document.getElementById('authModal').classList.remove('open');
+}
+document.getElementById('authModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('authModal')) closeModal();
+});
+function switchTab(tab) {
+  document.getElementById('loginForm').style.display  = tab === 'login'  ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('loginTab').classList.toggle('active',  tab === 'login');
+  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+  document.getElementById('modalTitle').textContent = tab === 'login' ? 'Welcome Back!' : 'Create Your Profile';
+  document.getElementById('modalSub').textContent   = tab === 'login' ? 'Login to your health dashboard' : "Join myhealth — it's free";
+}
+
+// ─── AUTH ───
+function doSignup() {
+  const firstName = document.getElementById('signupFirstName').value.trim();
+  const lastName  = document.getElementById('signupLastName').value.trim();
+  const email     = document.getElementById('signupEmail').value.trim();
+  const pass      = document.getElementById('signupPass').value;
+  if (!firstName || !email || !pass) { showToast('⚠️ Please fill in name, email, and password.', 'blue'); return; }
+  const user = {
+    firstName, lastName, email, pass,
+    age:        document.getElementById('signupAge').value,
+    gender:     document.getElementById('signupGender').value,
+    weight:     document.getElementById('signupWeight').value,
+    height:     document.getElementById('signupHeight').value,
+    blood:      document.getElementById('signupBlood').value,
+    conditions: document.getElementById('signupConditions').value,
+    allergies:  document.getElementById('signupAllergies').value,
+    vitals: [], tasks: {}, medPlan: [], healthScore: 72,
+    lifestyle: 'Lightly active', diet: 'Vegetarian'
+  };
+  localStorage.setItem('mh_user', JSON.stringify(user));
+  localStorage.setItem('mh_logged_in', 'true');
+  currentUser = user;
+  closeModal();
+  showDashboard();
+  showToast('🎉 Welcome to myhealth, ' + firstName + '!', 'green');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('⚠️ Enter email and password.', 'blue'); return; }
+  const stored = JSON.parse(localStorage.getItem('mh_user') || 'null');
+  if (stored && stored.email === email && stored.pass === pass) {
+    localStorage.setItem('mh_logged_in', 'true');
+    currentUser = stored;
+    closeModal();
+    showDashboard();
+    showToast('👋 Welcome back, ' + stored.firstName + '!', 'green');
+  } else {
+    showToast('❌ Incorrect email or password.', 'blue');
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('mh_logged_in');
+  currentUser = null;
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('landing').style.display   = 'block';
+  window.scrollTo(0, 0);
+  showToast('👋 Logged out successfully.', 'blue');
+}
+
+// ─── DASHBOARD ───
+function showLanding() {
+  if (currentUser) { showDashboard(); return; }
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('landing').style.display   = 'block';
+}
+
+function showDashboard() {
+  document.getElementById('landing').style.display   = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  populateDashboard();
+}
+
+function populateDashboard() {
+  if (!currentUser) return;
+  const u = currentUser;
+  const initials = (u.firstName[0] + (u.lastName ? u.lastName[0] : '')).toUpperCase();
+
+  document.getElementById('sidebarAvatar').textContent = initials;
+  document.getElementById('sidebarName').textContent   = u.firstName + ' ' + (u.lastName || '');
+  document.getElementById('sidebarEmail').textContent  = u.email;
+  document.getElementById('profileAvatar').textContent = initials;
+  document.getElementById('profileName').textContent   = u.firstName + ' ' + (u.lastName || '');
+  document.getElementById('profileEmail').textContent  = u.email;
+
+  // Prefill profile form
+  document.getElementById('p-fname').value      = u.firstName  || '';
+  document.getElementById('p-lname').value      = u.lastName   || '';
+  document.getElementById('p-age').value        = u.age        || '';
+  document.getElementById('p-weight').value     = u.weight     || '';
+  document.getElementById('p-height').value     = u.height     || '';
+  document.getElementById('p-conditions').value = u.conditions || '';
+  document.getElementById('p-allergies').value  = u.allergies  || '';
+
+  // Health score
+  const score = u.healthScore || 72;
+  document.getElementById('healthScoreVal').textContent = score;
+  document.getElementById('scoreFill').style.width = score + '%';
+
+  // Date & greeting
+  const now = new Date();
+  const hr  = now.getHours();
+  const greeting = hr < 12 ? 'Good Morning' : hr < 17 ? 'Good Afternoon' : 'Good Evening';
+  document.getElementById('dashGreeting').textContent = greeting + ', ' + u.firstName + '! 👋';
+  document.getElementById('dashDate').textContent = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Vitals
+  if (u.vitals && u.vitals.length) {
+    const last = u.vitals[u.vitals.length - 1];
+    setVital('hr',    (last.hr    || '--') + (last.hr    ? ' bpm'   : ''), last.hr    < 60 || last.hr > 100 ? 'vs-warn' : 'vs-ok');
+    setVital('bp',    last.sys && last.dia ? last.sys + '/' + last.dia : '--', last.sys > 140 ? 'vs-warn' : 'vs-ok');
+    setVital('temp',  last.temp  ? (last.temp  + '°F')    : '--', last.temp  > 99.4 ? 'vs-warn' : 'vs-ok');
+    setVital('sugar', last.sugar ? (last.sugar + ' mg/dL'): '--', last.sugar > 125  ? 'vs-warn' : 'vs-ok');
+    setVital('o2',    last.o2    ? (last.o2    + '%')      : '--', last.o2    < 95   ? 'vs-bad'  : 'vs-ok');
+    if (u.weight && u.height) {
+      const bmi = (u.weight / Math.pow(u.height / 100, 2)).toFixed(1);
+      setVital('bmi', bmi, bmi < 18.5 || bmi > 24.9 ? 'vs-warn' : 'vs-ok');
+    }
+  }
+
+  // Charts
+  buildChart('hrChart',         'hrDays',         (u.vitals || []).map(v => v.hr)    || [70,74,72,78,76,68,72], '#2196F3');
+  buildChart('trackerHrChart',  'trackerHrDays',  (u.vitals || []).map(v => v.hr)    || [70,74,72,78,76,68,72], '#2196F3');
+  buildChart('trackerSugarChart','trackerSugarDays',(u.vitals || []).map(v => v.sugar)|| [95,110,100,115,108,98,102], '#4CAF50');
+
+  // Tasks
+  setupTasks();
+  buildOverviewTasks();
+
+  // AI suggestion
+  generateAISuggestion();
+
+  // Health summary
+  buildHealthSummary();
+
+  // Restore saved medicine plan if any
+  if (u.medPlan && u.medPlan.length) {
+    renderMedSchedule(u.medPlan);
+    renderOverviewMeds(u.medPlan);
+  }
+}
+
+function setVital(id, val, cls) {
+  document.getElementById('v-' + id).textContent = val;
+  const s = document.getElementById('v-' + id + '-s');
+  if (s) {
+    s.className = 'vital-status ' + cls;
+    s.textContent = cls === 'vs-ok' ? 'Normal' : cls === 'vs-warn' ? 'Watch Out' : 'Attention';
+  }
+}
+
+function buildChart(chartId, daysId, data, color) {
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const d    = (data || []).slice(-7);
+  // Pad with defaults if not enough data
+  while (d.length < 7) d.unshift(null);
+  const max = Math.max(...d.filter(Boolean), 1);
+  const chartEl = document.getElementById(chartId);
+  const daysEl  = document.getElementById(daysId);
+  if (!chartEl || !daysEl) return;
+  chartEl.innerHTML = '';
+  daysEl.innerHTML  = '';
+  d.forEach((v, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'mini-bar';
+    bar.style.height = '0px';
+    bar.style.background = 'linear-gradient(180deg,' + color + ',' + color + '55)';
+    if (v) bar.title = v;
+    chartEl.appendChild(bar);
+    setTimeout(() => { bar.style.height = ((v || 0) / max * 60) + 'px'; }, 300 + i * 60);
+    const lbl = document.createElement('div');
+    lbl.className   = 'chart-day';
+    lbl.textContent = days[i] || '';
+    daysEl.appendChild(lbl);
+  });
+}
+
+function setupTasks() {
+  const today  = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('mh_tasks_' + today) || '{}');
+  ['morningTasks','dayTasks','eveningTasks'].forEach((id, gi) => {
+    const el    = document.getElementById(id);
+    if (!el) return;
+    const group   = ['morning','day','evening'][gi];
+    const taskArr = TASKS[group];
+    el.innerHTML  = taskArr.map((t, i) => {
+      const done = stored[group + i];
+      return '<li class="task-item' + (done ? ' done' : '') + '" onclick="toggleTask(\'' + group + '\',' + i + ',this)">' +
+             '<div class="task-check">' + (done ? '✓' : '') + '</div>' + t + '</li>';
+    }).join('');
+  });
+  buildOverviewTasks();
+  updateTaskProgress();
+}
+
+function toggleTask(group, idx, el) {
+  const today  = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('mh_tasks_' + today) || '{}');
+  const key    = group + idx;
+  stored[key]  = !stored[key];
+  localStorage.setItem('mh_tasks_' + today, JSON.stringify(stored));
+  el.classList.toggle('done', stored[key]);
+  el.querySelector('.task-check').textContent = stored[key] ? '✓' : '';
+  updateTaskProgress();
+  buildOverviewTasks();
+}
+
+function updateTaskProgress() {
+  const today  = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('mh_tasks_' + today) || '{}');
+  const total  = TASKS.morning.length + TASKS.day.length + TASKS.evening.length;
+  const done   = Object.values(stored).filter(Boolean).length;
+  const pct    = total ? Math.round(done / total * 100) : 0;
+  const el     = document.getElementById('taskPct');
+  const fill   = document.getElementById('taskFill');
+  if (el)   el.textContent  = pct + '%';
+  if (fill) fill.style.width = pct + '%';
+}
+
+function buildOverviewTasks() {
+  const el = document.getElementById('overviewTaskList');
+  if (!el) return;
+  const today  = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('mh_tasks_' + today) || '{}');
+  const all    = [
+    ...TASKS.morning.map((t, i) => ({ t, group: 'morning', i })),
+    ...TASKS.day.map((t, i)     => ({ t, group: 'day',     i }))
+  ].slice(0, 5);
+  el.innerHTML = all.map(({ t, group, i }) => {
+    const done = stored[group + i];
+    return '<li class="task-item' + (done ? ' done' : '') + '" onclick="toggleTask(\'' + group + '\',' + i + ',this)">' +
+           '<div class="task-check">' + (done ? '✓' : '') + '</div>' + t + '</li>';
+  }).join('');
+}
+
+function buildHealthSummary() {
+  const el = document.getElementById('healthSummary');
+  if (!el) return;
+  const u = currentUser;
+  const rows = [
+    ['🩸 Blood Group', u.blood      || 'Not set'],
+    ['⚖️ Weight',      u.weight     ? (u.weight + ' kg') : 'Not set'],
+    ['📏 Height',      u.height     ? (u.height + ' cm') : 'Not set'],
+    ['🏃 Lifestyle',   u.lifestyle  || 'Not set'],
+    ['🥗 Diet',        u.diet       || 'Not set'],
+    ['🦠 Conditions',  u.conditions || 'None'],
+  ];
+  el.innerHTML = rows.map(([k, v]) =>
+    '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--gray-100);font-size:0.825rem">' +
+    '<span style="color:var(--gray-500)">' + k + '</span>' +
+    '<span style="font-weight:700">' + v + '</span></div>'
+  ).join('');
+}
+
+function saveProfile() {
+  if (!currentUser) return;
+  currentUser.firstName  = document.getElementById('p-fname').value      || currentUser.firstName;
+  currentUser.lastName   = document.getElementById('p-lname').value      || currentUser.lastName;
+  currentUser.age        = document.getElementById('p-age').value;
+  currentUser.weight     = document.getElementById('p-weight').value;
+  currentUser.height     = document.getElementById('p-height').value;
+  currentUser.blood      = document.getElementById('p-blood').value;
+  currentUser.conditions = document.getElementById('p-conditions').value;
+  currentUser.allergies  = document.getElementById('p-allergies').value;
+  currentUser.lifestyle  = document.getElementById('p-lifestyle').value;
+  currentUser.diet       = document.getElementById('p-diet').value;
+  localStorage.setItem('mh_user', JSON.stringify(currentUser));
+  document.getElementById('sidebarName').textContent = currentUser.firstName + ' ' + (currentUser.lastName || '');
+  document.getElementById('profileName').textContent = currentUser.firstName + ' ' + (currentUser.lastName || '');
+  buildHealthSummary();
+  showToast('✅ Profile saved!', 'green');
+}
+
+function logVitals() {
+  if (!currentUser) return;
+  const entry = {
+    date:  new Date().toDateString(),
+    hr:    parseFloat(document.getElementById('log-hr').value)    || null,
+    sys:   parseFloat(document.getElementById('log-sys').value)   || null,
+    dia:   parseFloat(document.getElementById('log-dia').value)   || null,
+    temp:  parseFloat(document.getElementById('log-temp').value)  || null,
+    sugar: parseFloat(document.getElementById('log-sugar').value) || null,
+    o2:    parseFloat(document.getElementById('log-o2').value)    || null,
+    mood:  document.getElementById('log-mood').value,
+    sleep: document.getElementById('log-sleep').value,
+    water: document.getElementById('log-water').value
+  };
+  if (!currentUser.vitals) currentUser.vitals = [];
+  currentUser.vitals = currentUser.vitals.filter(v => v.date !== entry.date);
+  currentUser.vitals.push(entry);
+  if (currentUser.vitals.length > 30) currentUser.vitals.shift();
+  localStorage.setItem('mh_user', JSON.stringify(currentUser));
+  populateDashboard();
+  showToast('✅ Vitals saved for today!', 'green');
+}
+
+function generateAISuggestion() {
+  const u = currentUser;
+  const tips = [
+    'Drink at least 8 glasses of water today. Hydration improves energy and concentration.',
+    'Take a 20-minute walk after meals. It significantly helps blood sugar control.',
+    'Try to sleep by 10 PM tonight — consistent sleep schedules improve heart health.',
+    'Eat more fruits and vegetables today. Aim for 5 servings.',
+    'Take 5 deep breaths every hour to reduce stress levels.',
+    'Avoid screen time 1 hour before bed for better sleep quality.',
+    'Do 10 minutes of stretching in the morning to reduce back pain and stiffness.',
+  ];
+  const conditions = (u.conditions || '').toLowerCase();
+  let tip = tips[Math.floor(Math.random() * tips.length)];
+  if (conditions.includes('diabetes'))                                         tip = 'Check your blood sugar before meals. Keep healthy snacks nearby to avoid spikes.';
+  if (conditions.includes('hypertension') || conditions.includes('blood pressure')) tip = 'Reduce salt intake today. Aim for less than 2,300mg sodium. Eat potassium-rich foods like banana.';
+  if (conditions.includes('thyroid'))                                          tip = 'Take your thyroid medicine at the same time each day — ideally first thing in the morning on an empty stomach.';
+  const el = document.getElementById('aiSuggestionText');
+  if (el) el.textContent = tip;
+}
+
+// ─── PANEL SWITCHER ───
+function showPanel(id, clickedEl) {
+  document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.mobile-dash-btn').forEach(b => b.classList.remove('active'));
+  if (clickedEl) clickedEl.classList.add('active');
+}
+
+// ─── AI DIAGNOSIS ───
+async function runDashDiagnosis() {
+  const tags     = [...document.querySelectorAll('#dashSymTags .stag.active')].map(t => t.textContent).join(', ');
+  const desc     = document.getElementById('diagDesc').value;
+  const duration = document.getElementById('diagDuration').value;
+  const pain     = document.getElementById('diagPain').value;
+  const fever    = document.getElementById('diagFever').value;
+  if (!tags && !desc.trim()) { showToast('⚠️ Select at least one symptom.', 'blue'); return; }
+
+  const btn      = document.getElementById('dashDiagBtn');
+  btn.disabled   = true;
+  btn.textContent = 'Analysing...';
+
+  const resultEl = document.getElementById('dashDiagResult');
+  resultEl.innerHTML = '<div class="loading-box"><div class="loading-dots"><span></span><span></span><span></span></div><p>AI is analysing your symptoms...</p></div>';
+
+  const u = currentUser;
+  const prompt = 'You are a clinical medical AI for myhealth, an Indian healthcare app. Patient details:\n' +
+    'Name: ' + (u ? u.firstName : 'Patient') + '\n' +
+    'Age: ' + (u && u.age ? u.age : 'Not specified') + '\n' +
+    'Weight: ' + (u && u.weight ? u.weight + 'kg' : 'Not specified') + '\n' +
+    'Height: ' + (u && u.height ? u.height + 'cm' : 'Not specified') + '\n' +
+    'Gender: ' + (u && u.gender ? u.gender : 'Not specified') + '\n' +
+    'Existing conditions: ' + (u && u.conditions ? u.conditions : 'None') + '\n' +
+    'Known allergies: ' + (u && u.allergies ? u.allergies : 'None') + '\n' +
+    'Symptoms selected: ' + (tags || 'None') + '\n' +
+    'Symptom description: ' + (desc || 'None') + '\n' +
+    'Duration: ' + (duration || 'Not specified') + '\n' +
+    'Pain level: ' + (pain || 'Not specified') + '/10\n' +
+    'Fever temperature: ' + (fever ? fever + '°F' : 'Not mentioned') + '\n\n' +
+    'Respond ONLY with valid JSON in this exact format (no extra text):\n' +
+    '{"disease":"condition name","severity":"low|mid|high","confidence":"87%","description":"2-3 sentence clear explanation","medicines":[{"name":"Medicine name","type":"Tablet/Syrup/Capsule","dose":"500mg","frequency":"Twice daily","timing":"After food","duration":"5 days","how_to_take":"One sentence","icon":"💊"}],"lifestyle":["tip1","tip2","tip3"],"see_doctor_if":"specific warning","recovery_time":"5-7 days with rest"}\n' +
+    'Provide 2-4 medicines appropriate for India. Be medically accurate.';
+
+  try {
+    const res  = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data  = await res.json();
+    const raw   = data.content.map(c => c.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const r     = JSON.parse(clean);
+    renderDashResult(r);
+    if (currentUser) {
+      currentUser.medPlan = r.medicines;
+      localStorage.setItem('mh_user', JSON.stringify(currentUser));
+      renderMedSchedule(r.medicines);
+      renderOverviewMeds(r.medicines);
+    }
+  } catch (e) {
+    resultEl.innerHTML = '<div class="dash-card" style="color:var(--gray-500);text-align:center;padding:2rem">⚠️ Could not connect to AI. Please check your connection.<br><small>' + e.message + '</small></div>';
+  }
+  btn.disabled    = false;
+  btn.textContent = '🤖 Diagnose Now';
+}
+
+function renderDashResult(r) {
+  const sc   = r.severity === 'high' ? 'sev-high' : r.severity === 'mid' ? 'sev-mid' : 'sev-low';
+  const st   = r.severity === 'high' ? '🔴 High Severity' : r.severity === 'mid' ? '🟡 Moderate' : '🟢 Mild';
+  const meds = r.medicines.map(m =>
+    '<li class="med-result-item">' +
+    '<div style="font-size:1.3rem">' + (m.icon || '💊') + '</div>' +
+    '<div><div class="med-r-name">' + m.name + ' <span style="font-weight:400;color:var(--gray-500)">' + m.type + ' • ' + m.dose + '</span></div>' +
+    '<div class="med-r-info">' + m.frequency + ' • ' + m.timing + ' • ' + m.duration + '</div>' +
+    '<div class="med-r-info" style="font-style:italic">' + m.how_to_take + '</div></div>' +
+    '<div class="med-r-time">' + m.timing + '</div></li>'
+  ).join('');
+  const life = r.lifestyle.map(t => '<li>' + t + '</li>').join('');
+  document.getElementById('dashDiagResult').innerHTML =
+    '<div class="diag-result">' +
+    '<div class="sev-badge ' + sc + '">' + st + ' • ' + r.confidence + ' Confidence</div>' +
+    '<div class="diag-disease">' + r.disease + '</div>' +
+    '<p class="diag-desc">' + r.description + '</p>' +
+    '<p style="font-size:0.75rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.7rem">💊 Recommended Medicines</p>' +
+    '<ul class="med-result-list">' + meds + '</ul>' +
+    '<p style="font-size:0.75rem;font-weight:800;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;margin-bottom:0.5rem">🌿 Home Care & Lifestyle</p>' +
+    '<ul class="lifestyle-list">' + life + '</ul>' +
+    '<div class="recov-info">⏱️ <strong>Recovery Time:</strong> ' + r.recovery_time + '</div>' +
+    '<div class="diag-warn">🚨 <strong>See a doctor if:</strong> ' + r.see_doctor_if + '</div>' +
+    '<div class="diag-disclaimer">⚠️ This is an AI-generated suggestion for information only. Always consult a licensed doctor before taking any medication.</div>' +
+    '</div>';
+}
+
+function renderMedSchedule(meds) {
+  const el = document.getElementById('fullMedSchedule');
+  if (!el || !meds || !meds.length) return;
+  const morning   = meds.filter(m => (m.timing || '').toLowerCase().includes('morning') || (m.frequency || '').toLowerCase().includes('morning'));
+  const afternoon = meds.filter(m => (m.timing || '').toLowerCase().includes('afternoon') || (m.timing || '').toLowerCase().includes('lunch'));
+  const night     = meds.filter(m => (m.timing || '').toLowerCase().includes('night') || (m.timing || '').toLowerCase().includes('evening') || (m.timing || '').toLowerCase().includes('bedtime'));
+  el.innerHTML = [
+    ['Morning (6–9 AM)',   morning.length   ? morning   : meds],
+    ['Afternoon (1–2 PM)', afternoon],
+    ['Night (9–10 PM)',    night]
+  ].map(([time, slot]) => {
+    if (!slot || !slot.length) return '';
+    return '<div style="margin-bottom:1rem">' +
+      '<div style="font-size:0.78rem;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">' + time + '</div>' +
+      slot.map(m =>
+        '<div class="med-item"><span class="med-icon">' + (m.icon || '💊') + '</span>' +
+        '<div><div class="med-name">' + m.name + ' — ' + m.dose + '</div>' +
+        '<div class="med-dose-info">' + m.frequency + ' • ' + m.duration + ' • ' + m.how_to_take + '</div></div>' +
+        '<span class="med-time-badge">' + m.timing + '</span></div>'
+      ).join('') + '</div>';
+  }).join('');
+}
+
+function renderOverviewMeds(meds) {
+  const el = document.getElementById('overviewMedList');
+  if (!el || !meds || !meds.length) return;
+  el.innerHTML = meds.slice(0, 3).map(m =>
+    '<div class="med-item"><span class="med-icon">' + (m.icon || '💊') + '</span>' +
+    '<div><div class="med-name">' + m.name + '</div>' +
+    '<div class="med-dose-info">' + m.dose + ' • ' + m.timing + '</div></div>' +
+    '<span class="med-time-badge">' + m.frequency + '</span></div>'
+  ).join('');
+}
+
+// ─── TOAST ───
+function showToast(msg, type) {
+  type = type || 'blue';
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── AUTO LOGIN ───
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('mh_logged_in') === 'true') {
+    const stored = JSON.parse(localStorage.getItem('mh_user') || 'null');
+    if (stored) { currentUser = stored; showDashboard(); return; }
+  }
+});
+</script>
+</body>
+</html>
