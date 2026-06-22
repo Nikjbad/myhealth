@@ -1,3 +1,5 @@
+html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -431,6 +433,337 @@ footer { background: var(--gray-900); color: white; padding: 4rem 2rem 2rem; }
   .log-form      { grid-template-columns: 1fr; }
   .toast         { white-space: normal; text-align: center; width: 90vw; }
 }
+
+/* buy me a coffee */
+
+.coffee-section{
+
+position:relative;
+padding:90px 20px;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+
+background:
+linear-gradient(135deg,#edf7ff,#ffffff,#e8fff5);
+
+}
+
+/* Floating Background */
+
+.floating-circle{
+
+position:absolute;
+border-radius:50%;
+filter:blur(30px);
+animation:float 8s ease-in-out infinite;
+
+}
+
+.c1{
+
+width:220px;
+height:220px;
+background:#8fd3ff;
+top:-70px;
+left:-50px;
+
+}
+
+.c2{
+
+width:180px;
+height:180px;
+background:#8effc5;
+bottom:-50px;
+right:-40px;
+animation-delay:2s;
+
+}
+
+.c3{
+
+width:120px;
+height:120px;
+background:#b899ff;
+top:40%;
+right:15%;
+animation-delay:4s;
+
+}
+
+@keyframes float{
+
+50%{
+
+transform:translateY(-30px) scale(1.15);
+
+}
+
+}
+
+/* Card */
+
+.coffee-card{
+
+position:relative;
+
+width:100%;
+max-width:470px;
+
+padding:35px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.35);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.4);
+
+box-shadow:
+
+0 25px 60px rgba(0,0,0,.12),
+
+inset 0 1px rgba(255,255,255,.6);
+
+text-align:center;
+
+transition:.5s;
+
+animation:cardFloat 5s ease-in-out infinite;
+
+}
+
+.coffee-card:hover{
+
+transform:rotateX(5deg) rotateY(-5deg);
+
+}
+
+@keyframes cardFloat{
+
+50%{
+
+transform:translateY(-10px);
+
+}
+
+}
+
+/* Coffee Icon */
+
+.coffee-icon{
+
+font-size:60px;
+
+animation:bounce 2s infinite;
+
+}
+
+@keyframes bounce{
+
+50%{
+
+transform:translateY(-10px) rotate(8deg);
+
+}
+
+}
+
+/* Heading */
+
+.coffee-card h2{
+
+font-size:34px;
+
+margin:15px 0;
+
+background:linear-gradient(90deg,#00b894,#00d4ff);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+/* Text */
+
+.coffee-card p{
+
+font-size:16px;
+
+line-height:1.7;
+
+color:#555;
+
+margin-bottom:30px;
+
+}
+
+/* QR */
+
+.scanner{
+
+display:flex;
+
+justify-content:center;
+
+margin-bottom:25px;
+
+}
+
+.scanner img{
+
+width:220px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 20px 35px rgba(0,0,0,.2);
+
+transition:.5s;
+
+}
+
+.scanner img:hover{
+
+transform:
+
+scale(1.08)
+
+rotate(2deg);
+
+}
+
+/* UPI */
+
+.upi-box{
+
+background:rgba(255,255,255,.6);
+
+padding:14px;
+
+border-radius:15px;
+
+margin-bottom:25px;
+
+backdrop-filter:blur(10px);
+
+}
+
+.upi-box small{
+
+display:block;
+
+color:#777;
+
+margin-bottom:6px;
+
+}
+
+.upi-box h3{
+
+margin:0;
+
+color:#009966;
+
+word-break:break-all;
+
+}
+
+/* Button */
+
+.pay-btn{
+
+display:block;
+
+padding:18px;
+
+border-radius:16px;
+
+font-size:18px;
+
+font-weight:700;
+
+text-decoration:none;
+
+color:#fff;
+
+background:
+
+linear-gradient(45deg,#00c853,#00e676);
+
+box-shadow:
+
+0 10px 30px rgba(0,200,83,.4);
+
+transition:.35s;
+
+}
+
+.pay-btn:hover{
+
+transform:
+
+translateY(-5px)
+
+scale(1.03);
+
+box-shadow:
+
+0 18px 40px rgba(0,200,83,.55);
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.coffee-section{
+
+padding:60px 15px;
+
+}
+
+.coffee-card{
+
+padding:25px;
+
+border-radius:22px;
+
+}
+
+.coffee-card h2{
+
+font-size:28px;
+
+}
+
+.scanner img{
+
+width:180px;
+
+}
+
+.pay-btn{
+
+font-size:16px;
+
+padding:15px;
+
+}
+
+}
+
+
+
+
+
+.btn-loginc { background: transparent; border: 2px solid burlywood; color: var(--blue); padding: 0.5rem 1.3rem; border-radius: 50px; font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
+.btn-loginc:hover { background: rgb(255, 255, 255); color: white; }
 </style>
 </head>
 <body>
@@ -450,6 +783,8 @@ footer { background: var(--gray-900); color: white; padding: 4rem 2rem 2rem; }
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#testimonials">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><button class="btn-loginc"><a href="#coffee">Buy me a coffee</a></button></li>
+    
   </ul>
   <div class="nav-right">
     <button class="btn-login"  onclick="openModal('login')">Login</button>
@@ -466,6 +801,7 @@ footer { background: var(--gray-900); color: white; padding: 4rem 2rem 2rem; }
   <a href="#how-it-works" onclick="toggleMobileNav()">How It Works</a>
   <a href="#testimonials" onclick="toggleMobileNav()">Reviews</a>
   <a href="#contact"      onclick="toggleMobileNav()">Contact</a>
+  <a href="#coffee"       onclick="toggleMobileNav()">Buy me a coffee</a>
   <button class="btn-login"  onclick="toggleMobileNav();openModal('login')">Login</button>
   <button class="btn-signup" onclick="toggleMobileNav();openModal('signup')">Get Started Free</button>
 </div>
@@ -581,6 +917,45 @@ footer { background: var(--gray-900); color: white; padding: 4rem 2rem 2rem; }
       </div>
     </div>
   </div>
+</section>
+
+
+
+<!-- BUY ME A COFFEE -->
+<section class="coffee-section" id="coffee">
+
+    <div class="floating-circle c1"></div>
+    <div class="floating-circle c2"></div>
+    <div class="floating-circle c3"></div>
+
+    <div class="coffee-card">
+
+        <div class="coffee-icon">☕</div>
+
+        <h2>Buy Me a Coffee</h2>
+
+        <p>
+            Love using <b>MyHealth?</b><br>
+            Support the project with a small donation.
+            Every contribution helps us improve the website.
+        </p>
+
+        <div class="scanner">
+            <img src="scanner.jpeg" alt="UPI QR">
+        </div>
+
+        <div class="upi-box">
+            <small>UPI ID</small>
+            <h3>7505640600-2@ybl</h3>
+        </div>
+
+        <a class="pay-btn"
+           href="upi://pay?pa=7505640600-2@ybl&pn=MyHealth&cu=INR">
+            ❤️ Support MyHealth
+        </a>
+
+    </div>
+
 </section>
 
 <!-- FOOTER -->
